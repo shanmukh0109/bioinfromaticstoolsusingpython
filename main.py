@@ -1,5 +1,8 @@
+#By Shanmukh chowdary
+#importing required modules
 from flask import Flask, request
 app = Flask(__name__)
+#to display first webpage for selection of tool
 @app.route('/')
 def index():
     return '''<html style="background-image: url('https://media1.tenor.com/images/8ab51cca650124bdbd211ce2e8fb0714/tenor.gif?itemid=10625836'); background-size: cover;"><meta name="viewport" content="width=device-width, initial-scale=1"><title>BI TOOLS BY SHANMUKH</title><style>
@@ -47,6 +50,7 @@ def index():
 </script>
 </html>'''
 import re
+#webpage for collecting input from user
 @app.route('/index2',methods=['POST','GET'])
 def index2():
     if request.form['type']=='protein':
@@ -202,6 +206,7 @@ AGACCCCGATGAT
 });
   }, 1000);
 </script>'''
+#To perform PSSM matrix and sending output
 @app.route('/pssm',methods=['POST'])
 def pssm():
     s1=request.form['seqs'].split('\n')
@@ -342,6 +347,7 @@ def pssm():
             score+=(s[i][3])
     ru='<h3 style="text-align:center">Sum of log odd scores={}</h3>'.format(score)
     return ew+aw+tw+gw+ru
+#To perform Smith Waterman algorithm and sending output
 @app.route('/swresult',methods=['POST'])
 def swresult():
     import copy
@@ -421,6 +427,7 @@ def swresult():
             else:
                 res=res+'<th>'+str(l[i][j])+'</th></tr>'
     return res+'</table><h3>↖↑←=Value derived form Diagonal Cell, Up Cell and Left Cell</h3><h3>↖=Value derived form Diagonal Cell</h3><h3>↑=Value derived form Upper Cell</h3><h3>←=Value derived form LeftCell</h3><h4>Match Score= {0}</h4><h4>Mismatch Score= {1}</h4><h4>Gap Score= {2}</h4><h4>Sequence 1: {3}</h4><h4>Sequence 2: {4}</h4>'.format(matchscore,mismatchscore,gapscore,seq1,seq2)
+#To perform Needleman Wunsch algorithm and sending output
 @app.route('/nwresult',methods=['POST'])
 def nwresult():
     s1=request.form['seq1']
@@ -497,6 +504,7 @@ def nwresult():
             else:
                 res=res+'<th>'+str(l[i][j])+'</th></tr>'
     return res+'</table><h3>↖↑←=Value derived form Diagonal Cell, Up Cell and Left Cell</h3><h3>↖=Value derived form Diagonal Cell</h3><h3>↑=Value derived form Upper Cell</h3><h3>←=Value derived form LeftCell</h3><h4>Match Score= {0}</h4><h4>Mismatch Score= {1}</h4><h4>Gap Score= {2}</h4><h4>Sequence 1: {3}</h4><h4>Sequence 2: {4}</h4>'.format(matchscore,mismatchscore,gapscore,seq1,seq2)
+#To perform motif finding and sending output
 @app.route('/motif', methods=['POST'])
 def motif():
     pattern = request.form['pattern']
@@ -517,6 +525,7 @@ def motif():
         p=p+'<tr><th>'+str(i.start()+1)+'</th><th>'+str(i.end())+'</th><th>'+str(i.group())+'</th></tr>'
         su=su+1
     return '<h3 style="text-align:center">No.of motifs found='+str(su)+'</h3><table style="border:1px solid black;margin-left:auto;margin-right:auto;" border="1"><tr><th>start</th><th>end</th><th>matching pattern</th></tr>'+p+'</table><h3>Given sequence</h3><p>{0}</p><p>{1}</p><h3>Given pattern </h3><p>{2}</p></h3>'.format(k[0],g,s)
+#To perform translation and sending output
 @app.route('/translate',methods=['POST'])
 def translate():
     f = request.files['file']
